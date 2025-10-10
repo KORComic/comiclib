@@ -8,6 +8,10 @@ function ComicInfo:new(archive_path)
 
     local xml_content = nil
 
+    -- Save current locale and set locale to a "implementation-defined native locale"
+    local locale = os.setlocale(nil, "all")
+    os.setlocale("", "all")
+
     if arc:open(archive_path) then
         for entry in arc:iterate() do
             if entry.mode == "file" and entry.path == "ComicInfo.xml" then
@@ -19,6 +23,9 @@ function ComicInfo:new(archive_path)
 
         arc:close()
     end
+
+    -- Restore previous locale
+    os.setlocale(locale, "all")
 
     if not xml_content or #xml_content == 0 then
         return nil, false
