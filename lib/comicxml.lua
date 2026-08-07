@@ -99,12 +99,12 @@ function XmlObject:toTable(node)
 
     -- Add text if present and no children or attributes
     local text = node._text:match("^%s*(.-)%s*$")
+    if next(obj) == nil then
+        return text
+    end
+
     if text ~= "" then
-        if next(obj) == nil then
-            return text
-        else
-            obj["text"] = text
-        end
+        obj["text"] = text
     end
 
     return obj
