@@ -58,3 +58,26 @@ describe("xml object with array", function()
         end)
     end)
 end)
+
+describe("empty xml object with self closing tags", function()
+    describe("parse sample", function()
+        local xml = [[
+    <root>
+      <item/>
+      <item2>HelloWorld</item2>
+    </root>
+    ]]
+
+        local parser = XmlObject:new()
+        local root = parser:parse(xml)
+        local obj = parser:toTable(root)
+
+        it("<item/> should be null, no a table", function()
+            assert.equals("",obj.item)
+            assert.is_not.table(obj.item)
+        end)
+        it("item2 should exist and have value", function()
+            assert.equals( "HelloWorld", obj.item2)
+        end)
+    end)
+end)
